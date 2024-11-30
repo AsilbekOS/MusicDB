@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+option go_package = "musicproto/";
+
+service SongService {
+    // Add a song
+    rpc AddSong (AddSongRequest) returns (AddSongResponse);
+    // Get a song by ID
+    rpc GetSong (GetSongRequest) returns (GetSongResponse);
+    // Get songs with filtering and pagination
+    rpc GetSongs (GetSongsRequest) returns (GetSongsResponse);
+    // Get song lyrics by verses
+    rpc GetSongLyrics (GetSongLyricsRequest) returns (GetSongLyricsResponse);
+    // Update a song
+    rpc UpdateSong (UpdateSongRequest) returns (UpdateSongResponse);
+    // Delete a song
+    rpc DeleteSong (DeleteSongRequest) returns (DeleteSongResponse);
+}
+
+message AddSongRequest {
+    string group = 1;  // Group name
+    string song = 2;   // Song name
+}
+
+message AddSongResponse {
+    string song_id = 1; // Song ID
+    string status = 2;  // "success" or "failure"
+}
+
+message UpdateSongRequest {
+    string song_id = 1;
+    string group = 2;  // Group name (update)
+    string song = 3;   // Song name (update)
+}
+
+message UpdateSongResponse {
+    string status = 1; // Status indicating success or failure of update
+}
+
+message DeleteSongRequest {
+    string song_id = 1;
+}
+
+message DeleteSongResponse {
+    string status = 1; // "success" or "failure"
+}
+
+message GetSongRequest {
+    string song_id = 1;
+}
+
+message GetSongResponse {
+    string song_id = 1;
+    string group = 2;
+    string song = 3;
+    string release_date = 4;  // Release date
+    string link = 5;          // Song link
+}
+
+message GetSongsRequest {
+    string group = 1;       // Group name (optional)
+    int32 page = 2;         // Page number
+    int32 page_size = 3;    // Number of items per page
+}
+
+message GetSongsResponse {
+    repeated Song songs = 1; // List of songs
+}
+
+message GetSongLyricsRequest {
+    string song_id = 1;    // Song ID
+    int32 page = 2;        // Page number
+    int32 page_size = 3;   // Number of verses per page
+}
+
+message GetSongLyricsResponse {
+    repeated SongLyrics lyrics = 1; // List of verses
+}
+
+message Song {
+    string song_id = 1;
+    string group = 2;
+    string song = 3;
+    string release_date = 4;
+    string link = 5;
+}
+
+message SongLyrics {
+    int32 verse_number = 1; // Verse number
+    string verse_text = 2;  // Verse text
+}

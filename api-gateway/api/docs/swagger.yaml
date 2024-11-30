@@ -1,0 +1,301 @@
+basePath: /
+definitions:
+  models.StandartError:
+    properties:
+      error: {}
+    type: object
+  musicproto.AddSongRequest:
+    properties:
+      group:
+        description: Group name
+        type: string
+      song:
+        description: Song name
+        type: string
+    type: object
+  musicproto.AddSongResponse:
+    properties:
+      song_id:
+        description: Song ID
+        type: string
+      status:
+        description: '"success" or "failure"'
+        type: string
+    type: object
+  musicproto.DeleteSongResponse:
+    properties:
+      status:
+        description: '"success" or "failure"'
+        type: string
+    type: object
+  musicproto.GetSongLyricsResponse:
+    properties:
+      lyrics:
+        description: List of verses
+        items:
+          $ref: '#/definitions/musicproto.SongLyrics'
+        type: array
+    type: object
+  musicproto.GetSongResponse:
+    properties:
+      group:
+        type: string
+      link:
+        description: Song link
+        type: string
+      release_date:
+        description: Release date
+        type: string
+      song:
+        type: string
+      song_id:
+        type: string
+    type: object
+  musicproto.GetSongsResponse:
+    properties:
+      songs:
+        description: List of songs
+        items:
+          $ref: '#/definitions/musicproto.Song'
+        type: array
+    type: object
+  musicproto.Song:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      release_date:
+        type: string
+      song:
+        type: string
+      song_id:
+        type: string
+    type: object
+  musicproto.SongLyrics:
+    properties:
+      verse_number:
+        description: Verse number
+        type: integer
+      verse_text:
+        description: Verse text
+        type: string
+    type: object
+  musicproto.UpdateSongRequest:
+    properties:
+      group:
+        description: Group name (update)
+        type: string
+      song:
+        description: Song name (update)
+        type: string
+      song_id:
+        type: string
+    type: object
+  musicproto.UpdateSongResponse:
+    properties:
+      status:
+        description: Status indicating success or failure of update
+        type: string
+    type: object
+host: localhost:50077
+info:
+  contact:
+    email: asilbekxolmatov2002@gmail.com
+    name: Asilbek Kholmatov
+  description: This is a API for demonstration purposes.
+  title: MusicDB
+  version: "1.0"
+paths:
+  /api/songs/add:
+    post:
+      consumes:
+      - application/json
+      description: Adds new song information
+      parameters:
+      - description: Song information
+        in: body
+        name: song
+        required: true
+        schema:
+          $ref: '#/definitions/musicproto.AddSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/musicproto.AddSongResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      summary: Add a song
+      tags:
+      - Songs
+  /api/songs/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves songs with filtering and pagination
+      parameters:
+      - description: Group name
+        in: query
+        name: group
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/musicproto.GetSongsResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      summary: Get songs (with filtering and pagination)
+      tags:
+      - Songs
+  /api/songs/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a song
+      parameters:
+      - description: Song ID
+        in: query
+        name: song_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/musicproto.DeleteSongResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      summary: Delete a song
+      tags:
+      - Songs
+  /api/songs/id:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a song by its ID
+      parameters:
+      - description: Song ID
+        in: query
+        name: song_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/musicproto.GetSongResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "404":
+          description: Not found error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      summary: Get a song by ID
+      tags:
+      - Songs
+  /api/songs/lyrics/id:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves song lyrics by ID
+      parameters:
+      - description: Song ID
+        in: query
+        name: song_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/musicproto.GetSongLyricsResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "404":
+          description: Not found error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      summary: Get song lyrics
+      tags:
+      - Songs
+  /api/songs/update:
+    put:
+      consumes:
+      - application/json
+      description: Updates the song's information
+      parameters:
+      - description: Updated song information
+        in: body
+        name: song
+        required: true
+        schema:
+          $ref: '#/definitions/musicproto.UpdateSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/musicproto.UpdateSongResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      summary: Update song information
+      tags:
+      - Songs
+swagger: "2.0"

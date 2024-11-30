@@ -1,0 +1,454 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a API for demonstration purposes.",
+        "title": "MusicDB",
+        "contact": {
+            "name": "Asilbek Kholmatov",
+            "email": "asilbekxolmatov2002@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:50077",
+    "basePath": "/",
+    "paths": {
+        "/api/songs/add": {
+            "post": {
+                "description": "Adds new song information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Add a song",
+                "parameters": [
+                    {
+                        "description": "Song information",
+                        "name": "song",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.AddSongRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.AddSongResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/songs/all": {
+            "get": {
+                "description": "Retrieves songs with filtering and pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get songs (with filtering and pagination)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group name",
+                        "name": "group",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.GetSongsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/songs/delete": {
+            "delete": {
+                "description": "Deletes a song",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Delete a song",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song ID",
+                        "name": "song_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.DeleteSongResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/songs/id": {
+            "get": {
+                "description": "Retrieves a song by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get a song by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song ID",
+                        "name": "song_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.GetSongResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/songs/lyrics/id": {
+            "get": {
+                "description": "Retrieves song lyrics by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get song lyrics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song ID",
+                        "name": "song_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.GetSongLyricsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/songs/update": {
+            "put": {
+                "description": "Updates the song's information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Update song information",
+                "parameters": [
+                    {
+                        "description": "Updated song information",
+                        "name": "song",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.UpdateSongRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/musicproto.UpdateSongResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.StandartError": {
+            "type": "object",
+            "properties": {
+                "error": {}
+            }
+        },
+        "musicproto.AddSongRequest": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "description": "Group name",
+                    "type": "string"
+                },
+                "song": {
+                    "description": "Song name",
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.AddSongResponse": {
+            "type": "object",
+            "properties": {
+                "song_id": {
+                    "description": "Song ID",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "\"success\" or \"failure\"",
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.DeleteSongResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "description": "\"success\" or \"failure\"",
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.GetSongLyricsResponse": {
+            "type": "object",
+            "properties": {
+                "lyrics": {
+                    "description": "List of verses",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/musicproto.SongLyrics"
+                    }
+                }
+            }
+        },
+        "musicproto.GetSongResponse": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "type": "string"
+                },
+                "link": {
+                    "description": "Song link",
+                    "type": "string"
+                },
+                "release_date": {
+                    "description": "Release date",
+                    "type": "string"
+                },
+                "song": {
+                    "type": "string"
+                },
+                "song_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.GetSongsResponse": {
+            "type": "object",
+            "properties": {
+                "songs": {
+                    "description": "List of songs",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/musicproto.Song"
+                    }
+                }
+            }
+        },
+        "musicproto.Song": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "song": {
+                    "type": "string"
+                },
+                "song_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.SongLyrics": {
+            "type": "object",
+            "properties": {
+                "verse_number": {
+                    "description": "Verse number",
+                    "type": "integer"
+                },
+                "verse_text": {
+                    "description": "Verse text",
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.UpdateSongRequest": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "description": "Group name (update)",
+                    "type": "string"
+                },
+                "song": {
+                    "description": "Song name (update)",
+                    "type": "string"
+                },
+                "song_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "musicproto.UpdateSongResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "description": "Status indicating success or failure of update",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
