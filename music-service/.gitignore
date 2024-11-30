@@ -1,6 +1,5 @@
 # Environment configuration files
 .env
 
-# Backup or temporary versions of Makefile
-*Makefile
-
+# Makefile itself
+Makefile
